@@ -16,7 +16,7 @@ class GoogleAuth extends React.Component {
             }).then(() => {
                 this.auth = window.gapi.auth2.getAuthInstance();
                 this.onAuthChange(this.auth.isSignedIn.get());
-                this.auth.isSignedIn.listen(this.onAuthChange);
+                this.auth.isSignedIn.listen(this.onAuthChange); // listen accepts callback
 
                 // if auth was defined as const auth then we would have to
                 // assign new variable whenever we wanted to reference window.gapi.auth2.getAuthInstance()
@@ -36,11 +36,11 @@ class GoogleAuth extends React.Component {
     };
 
     onSignInClick = () => {
-        this.auth.signIn();
+        this.auth.signIn(); // auth as gapi object
     }
 
     onSignOutClick = () => {
-        this.auth.signOut();
+        this.auth.signOut(); // auth as gapi object
     }
 
     renderAuthButton() {
@@ -68,8 +68,8 @@ class GoogleAuth extends React.Component {
     }
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => { // reducers/index.js
     return { isSignedIn: state.auth.isSignedIn }
 }
 
-export default connect(mapStateToProps, { signIn, signOut })(GoogleAuth);
+export default connect(mapStateToProps, { signIn, signOut })(GoogleAuth); // signIn & signOut as props
