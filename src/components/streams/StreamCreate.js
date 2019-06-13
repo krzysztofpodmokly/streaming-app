@@ -2,6 +2,9 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 // Field => component
 // reduxForm => function
+import { connect } from 'react-redux';
+import { createStream } from '../../actions/index'
+
 
 class StreamCreate extends React.Component {
 
@@ -38,16 +41,16 @@ class StreamCreate extends React.Component {
         const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
 
         return (
-            <div className={className}>
+            <div className={ className }>
                 <label>{ label }</label>
                 <input { ...input } autoComplete="off" />
-                {this.renderError(meta)}
+                { this.renderError(meta) }
             </div>
         );
     };
 
-    onSubmit(formValues) {
-        console.log(formValues);
+    onSubmit = (formValues) => {
+        this.props.createStream(formValues);
     }
  
     render() {
@@ -79,7 +82,9 @@ const validateForm = (formValues) => {
 
 
 
-export default reduxForm({
+const formWrapped = reduxForm({
     form: 'streamCreate', // name of the form
     validate: validateForm
 })(StreamCreate);
+
+export default connect(null, { createStream })(formWrapped);
